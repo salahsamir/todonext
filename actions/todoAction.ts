@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 
-export const createTodo = async ({title,body,completed}:{title:string,body?:string| undefined,completed?:boolean})=>{
+export const createTodo = async ({title,body,completed}:{title:string,body?:string,completed?:boolean})=>{
 
     return await prisma.todo.create({
         data:{
@@ -20,4 +20,11 @@ export const findTodo = async ()=>{
     return todos
 }
 export const updateTodo = async ()=>{}
-export const deleteTodo = async ()=>{}
+export const deleteTodo = async (id:string)=>{
+
+    return await prisma.todo.delete({
+        where:{
+            id
+        }
+    })
+}

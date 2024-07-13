@@ -1,25 +1,25 @@
 
-import { findTodo } from "@/actions/todoAction"
+import {  findTodo } from "@/actions/todoAction"
 import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Check, Pen, Trash, X } from "lucide-react"
-
-
-
+import { Pen} from "lucide-react"
+import DeleteTodo from "../DeleteTodo"
+import { format } from 'date-fns';
+import moment from 'moment';
+import { Badge } from "./badge"
 const Todos = async() => {
   let todos=await findTodo()
-  // console.log(todos);
-  
 
+  const formatDate = (dateString:Date) => {
+    return moment(dateString).format('h:mm:ss a'); // Example: July 13th 2024, 10:53:41 am
+  };
   return (
     <Table className="w-full rounded-md p-2 my-3">
     
@@ -27,7 +27,10 @@ const Todos = async() => {
         <TableRow >
           <TableHead className="">Title</TableHead>
           <TableHead>Body</TableHead>
+
           <TableHead>Completed</TableHead>
+          <TableHead>Date</TableHead>
+
           <TableHead className="text-right" >
             Actions
 
@@ -39,10 +42,13 @@ const Todos = async() => {
           <TableRow key={todo.id} className=" even:bg-muted">
             <TableCell className="font-medium">{todo.title}</TableCell>
             <TableCell>{todo.body.slice(0, 50)}</TableCell>
-            <TableCell className="mx-2">{todo.completed? <span className="text-green-500">Completed</span>: <span className="text-red-500 line-through">Not Completed</span>}</TableCell>
+
+            <TableCell className="mx-2">{todo.completed? <Badge><span className="text-green-500 p-2">Completed</span></Badge>:<Badge> <span className="text-red-500 line-through p-2">UnCompleted</span></Badge>}</TableCell>
+            <TableCell>{formatDate(todo.created_at)}</TableCell>
             <TableCell className="m-auto"> <div className='flex items-center justify-end gap-3'>
                <Button variant={"secondary"} size={"icon"}><Pen/></Button>
-               <Button variant={"destructive"} size={"icon"}><Trash/></Button>
+               <DeleteTodo id={todo.id}/>
+           
 
           </div></TableCell>
           </TableRow>
