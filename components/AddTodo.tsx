@@ -28,13 +28,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 import { PlusIcon } from 'lucide-react';
 import { createTodo } from '@/actions/todoAction';
+import { Checkbox } from './ui/checkbox';
 
 
 const AddTodo=()=> {
     const defaultValues: Partial<TodoFormValues> = {
         title: "",
         body: "",
-        // commpleted: false,
+        completed: false,
       };
     const form = useForm<TodoFormValues>({
         resolver: zodResolver(todoFormSchema),
@@ -48,11 +49,11 @@ const AddTodo=()=> {
       }
     
      async  function onSubmit(values: TodoFormValues) {
-     
-      
+ 
         await createTodo({
           title: values.title,
-          body: values.body})
+          body: values.body,
+          completed: values.completed})
         cleanUp()
         
       }
@@ -65,14 +66,14 @@ const AddTodo=()=> {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="text-blue-600">New Todo</DialogTitle>
-              <DialogDescription className="text-blue-300 text-sm">
+              <DialogTitle className="text-blue-800">New Todo</DialogTitle>
+              <DialogDescription className="text-blue-900 text-sm">
                 create a new todo
               </DialogDescription>
             </DialogHeader>
             <div className="py-2">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
                     control={form.control}
                     name="title"
@@ -100,6 +101,32 @@ const AddTodo=()=> {
                             {...field}
                           />
                         </FormControl>
+                       
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                    <FormField
+                    control={form.control}
+                    name="completed"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                       
+                        <FormControl>
+                        <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                <FormLabel>
+                  Completed
+                </FormLabel>
+                <FormDescription>
+                  You can manage your mobile notifications in the{" "}
+                 
+                </FormDescription>
+              </div>
                        
                         <FormMessage />
                       </FormItem>

@@ -12,11 +12,8 @@ export const todoFormSchema = z.object({
     }),
   body: z
     .string()
-    .min(10, {
-      message: "Body must be at least 10 characters.",
-    })
     .optional(),
-  // commpleted: z.boolean().optional(),
+  completed: z.boolean().optional(),
 });
 
 export type TodoFormValues = z.infer<typeof todoFormSchema>;

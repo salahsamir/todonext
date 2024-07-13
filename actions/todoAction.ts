@@ -5,12 +5,13 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 
-export const createTodo = async ({title,body}:{title:string,body?:string| undefined})=>{
+export const createTodo = async ({title,body,completed}:{title:string,body?:string| undefined,completed?:boolean})=>{
 
     return await prisma.todo.create({
         data:{
             title,
-            body:body
+            body,
+            completed
         }
         })
 }

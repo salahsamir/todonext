@@ -11,7 +11,7 @@ model Todo {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
  
   title    String
-  body     String
+  body     String?
   created_at DateTime @default(now())
   completed   Boolean @default(false)
   // author   User      @relation(fields: [authorId], references: [id])
