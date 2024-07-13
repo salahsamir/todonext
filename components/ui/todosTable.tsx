@@ -15,7 +15,8 @@ import { format } from 'date-fns';
 import moment from 'moment';
 import { Badge } from "./badge"
 const Todos = async() => {
-  let todos=await findTodo()
+  // i need sort in decending order
+  let todos=(await findTodo()).toReversed()
 
   const formatDate = (dateString:Date) => {
     return moment(dateString).format('h:mm:ss a'); // Example: July 13th 2024, 10:53:41 am

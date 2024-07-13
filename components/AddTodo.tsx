@@ -1,7 +1,7 @@
 
 "use client";
 import { todoFormSchema, TodoFormValues } from '@/schema';
-import React from 'react'
+import React, { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -32,11 +32,14 @@ import { Checkbox } from './ui/checkbox';
 
 
 const AddTodo=()=> {
+   let [open ,setOpen]=useState(false)
     const defaultValues: Partial<TodoFormValues> = {
         title: "",
         body: "",
         completed: false,
       };
+      let [load,setLoading]=useState(false)
+    
     const form = useForm<TodoFormValues>({
         resolver: zodResolver(todoFormSchema),
         defaultValues,
@@ -44,12 +47,12 @@ const AddTodo=()=> {
       });
       let cleanUp=()=>{
         form.reset()
-        
-      
+        setLoading(false)
+        setOpen(false)
       }
     
      async  function onSubmit(values: TodoFormValues) {
- 
+        setLoading(true)
         await createTodo({
           title: values.title,
           body: values.body,
@@ -60,9 +63,9 @@ const AddTodo=()=> {
   return (
     <div>
          <div className="flex justify-end">
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline"><PlusIcon className='mr-2'/> Create A New Todo</Button>
+            <Button variant="outline" ><PlusIcon className='mr-2' /> Create A New Todo</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -133,7 +136,7 @@ const AddTodo=()=> {
                     )}
                   />
                    <DialogFooter className="my-3">
-              <Button type="submit">Add Todo</Button>
+              <Button type="submit" >{load?<PlusIcon className="h-4 w-4 animate-spin"/>:<PlusIcon className="h-4 w-4"/>}</Button>
             </DialogFooter>
                 </form>
                  
