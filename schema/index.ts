@@ -2,6 +2,7 @@
 import { z } from "zod";
 
 export const todoFormSchema = z.object({
+  id: z.string().optional(),
   title: z
     .string()
     .min(2, {

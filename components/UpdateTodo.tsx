@@ -11,9 +11,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTrigger,
-  DialogClose,
+ 
   DialogTitle,
-  DialogDescription
+ DialogDescription
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -24,20 +24,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Pen} from "lucide-react"
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import Textarea
-import { PlusIcon } from 'lucide-react';
-import { createTodo } from '@/actions/todoAction';
+
+import { createTodo, updateTodo } from '@/actions/todoAction';
 import { Checkbox } from './ui/checkbox';
 
 
-const AddTodo=({userId}:{userId:string|null})=> {
+interface UpdateTodoProps {
+  todo: TodoFormValues
+}
+
+const UpdateTodo=({todo}:UpdateTodoProps)=> {
+
    let [open ,setOpen]=useState(false)
-    const defaultValues: Partial<TodoFormValues> = {
-        title: "",
-        body: "",
-        completed: false,
+    let defaultValues: Partial<TodoFormValues> = {
+        title:todo.title ,
+        body:todo.body,
+        completed: todo.completed,
       };
+    
       let [load,setLoading]=useState(false)
     
     const form = useForm<TodoFormValues>({
@@ -52,12 +59,9 @@ const AddTodo=({userId}:{userId:string|null})=> {
       }
     
      async  function onSubmit(values: TodoFormValues) {
+    
         setLoading(true)
-        await createTodo({
-          userId:userId as string,
-          title: values.title,
-          body: values.body,
-          completed: values.completed})
+        await updateTodo(todo.id, values)
         cleanUp()
         
       }
@@ -65,15 +69,17 @@ const AddTodo=({userId}:{userId:string|null})=> {
     <div>
          <div className="flex justify-end">
         <Dialog open={open} onOpenChange={setOpen}>
+      
           <DialogTrigger asChild>
-            <Button variant="outline" ><PlusIcon className='mr-2' /> Create A New Todo</Button>
+          <Button variant={"secondary"} size={"icon"} onClick={()=>console.log(todo)}><Pen/></Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="text-blue-800">New Todo</DialogTitle>
-              <DialogDescription className="text-blue-900 text-sm">
-                create a new todo
+              <DialogTitle className="text-blue-800 text-center dark:text-blue-200">Update Todo</DialogTitle>
+              <DialogDescription>
+                Update your Todo
               </DialogDescription>
+             
             </DialogHeader>
             <div className="py-2">
               <Form {...form}>
@@ -137,7 +143,7 @@ const AddTodo=({userId}:{userId:string|null})=> {
                     )}
                   />
                    <DialogFooter className="my-3">
-              <Button type="submit" >{load?<PlusIcon className="h-4 w-4 animate-spin"/>:<PlusIcon className="h-4 w-4"/>}</Button>
+              <Button type="submit" >{load?<Pen className="h-4 w-4 animate-spin"/>:<Pen className="h-4 w-4"/>}</Button>
             </DialogFooter>
                 </form>
                  
@@ -151,4 +157,4 @@ const AddTodo=({userId}:{userId:string|null})=> {
   )
 }
 
-export default AddTodo
+export default UpdateTodo

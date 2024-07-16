@@ -12,6 +12,7 @@ model Todo {
  
   title    String
   body     String?
+  userId String
   created_at DateTime @default(now())
   completed   Boolean @default(false)
   // author   User      @relation(fields: [authorId], references: [id])
@@ -19,15 +20,7 @@ model Todo {
 
 }
 
-model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   @unique
-  name    String?
-  created_at DateTime @default(now())
 
-  // address Address?
-  // todos   Todo[]
-}
 
 
 // // Address is an embedded document

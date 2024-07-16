@@ -3,7 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/provider/theme";
 import { ModeToggle } from "@/components/ModeToggle";
+import {
+  ClerkLoaded,
+  ClerkProvider,
 
+} from '@clerk/nextjs'
+import Header from "./header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +22,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
+    <ClerkProvider>
+
     <html lang="en">
     
      <body className={`${inter.className} m-2 `}>
@@ -27,11 +35,14 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
-              <ModeToggle/>
-      {children}
+             <ClerkLoaded>
+             <Header/>
+              {children}
+            </ClerkLoaded>
       </ThemeProvider>
       </body>
      
     </html>
+    </ClerkProvider>
   );
 }

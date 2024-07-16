@@ -1,6 +1,6 @@
 
 import {  findTodo } from "@/actions/todoAction"
-import { Button } from "@/components/ui/button"
+
 import {
   Table,
   TableBody,
@@ -9,14 +9,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Pen} from "lucide-react"
+
 import DeleteTodo from "../DeleteTodo"
-import { format } from 'date-fns';
+
 import moment from 'moment';
 import { Badge } from "./badge"
-const Todos = async() => {
+import UpdateTodo from "../UpdateTodo"
+import Actions from "../Actions";
+const Todos = async({userId}:{userId:string |null}) => {
   // i need sort in decending order
-  let todos=(await findTodo()).toReversed()
+  let todos=(await findTodo(userId))
 
   const formatDate = (dateString:Date) => {
     return moment(dateString).format('h:mm:ss a'); // Example: July 13th 2024, 10:53:41 am
@@ -42,14 +44,13 @@ const Todos = async() => {
         {todos.map((todo) => (
           <TableRow key={todo.id} className=" even:bg-muted">
             <TableCell className="font-medium">{todo.title}</TableCell>
-            <TableCell>{todo.body.slice(0, 50)}</TableCell>
+            <TableCell>{todo.body?.slice(0, 50)}</TableCell>
 
             <TableCell className="mx-2">{todo.completed? <Badge><span className="text-green-500 p-2">Completed</span></Badge>:<Badge> <span className="text-red-500 line-through p-2">UnCompleted</span></Badge>}</TableCell>
             <TableCell>{formatDate(todo.created_at)}</TableCell>
             <TableCell className="m-auto"> <div className='flex items-center justify-end gap-3'>
-               <Button variant={"secondary"} size={"icon"}><Pen/></Button>
-               <DeleteTodo id={todo.id}/>
-           
+               
+            <Actions todo={todo}/>
 
           </div></TableCell>
           </TableRow>
