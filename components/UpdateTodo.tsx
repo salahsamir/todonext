@@ -28,7 +28,7 @@ import { Pen} from "lucide-react"
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 
-import { createTodo, updateTodo } from '@/actions/todoAction';
+import {  updateTodo } from '@/actions/todoAction';
 import { Checkbox } from './ui/checkbox';
 
 
@@ -37,7 +37,6 @@ interface UpdateTodoProps {
 }
 
 const UpdateTodo=({todo}:UpdateTodoProps)=> {
-
    let [open ,setOpen]=useState(false)
     let defaultValues: Partial<TodoFormValues> = {
         title:todo.title ,
@@ -61,7 +60,7 @@ const UpdateTodo=({todo}:UpdateTodoProps)=> {
      async  function onSubmit(values: TodoFormValues) {
     
         setLoading(true)
-        await updateTodo(todo.id, values)
+        await updateTodo(todo.id as string, values)
         cleanUp()
         
       }
