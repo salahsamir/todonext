@@ -18,7 +18,7 @@ import UpdateTodo from "../UpdateTodo"
 import Actions from "../Actions";
 const Todos = async({userId}:{userId:string |null}) => {
   // i need sort in decending order
-  let todos=(await findTodo(userId))
+  let todos=(await findTodo(userId as string))
 
   const formatDate = (dateString:Date) => {
     return moment(dateString).format('h:mm:ss a'); // Example: July 13th 2024, 10:53:41 am
