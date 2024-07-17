@@ -4,15 +4,15 @@ const prisma = new PrismaClient()
 
 async function main() {
 
-  await prisma.todo.createMany(
-    {
-      data:Array.from({length:10},(_,i)=>(
-        {
-            title:faker.lorem.word(),
-            body:faker.lorem.paragraph()
-      }))
-    }
-)
+//   await prisma.todo.createMany(
+//     {
+//       data:Array.from({length:10},(_,i)=>(
+//         {
+//             title:faker.lorem.word(),
+//             body:faker.lorem.paragraph()
+//       }))
+//     }
+// )
 //   await prisma.user.createMany(
 //     {
 //       data:Array.from({length:10},(_,i)=>(
