@@ -16,6 +16,7 @@ import moment from 'moment';
 import { Badge } from "./badge"
 import UpdateTodo from "../UpdateTodo"
 import Actions from "../Actions";
+import { TodoFormValues } from "@/schema";
 const Todos = async({userId}:{userId:string |null}) => {
   // i need sort in decending order
   let todos=(await findTodo(userId as string))
@@ -41,7 +42,7 @@ const Todos = async({userId}:{userId:string |null}) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {todos.map((todo) => (
+        {todos.map((todo: { id: string; title: string; body: string | null; userId: string; created_at: Date; completed: boolean }) => (
           <TableRow key={todo.id} className=" even:bg-muted">
             <TableCell className="font-medium">{todo.title}</TableCell>
             <TableCell>{todo.body?.slice(0, 50)}</TableCell>
