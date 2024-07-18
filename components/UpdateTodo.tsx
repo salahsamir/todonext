@@ -1,7 +1,7 @@
 
 "use client";
 import { todoFormSchema, TodoFormValues } from '@/schema';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -38,19 +38,26 @@ interface UpdateTodoProps {
 
 const UpdateTodo=({todo}:UpdateTodoProps)=> {
    let [open ,setOpen]=useState(false)
+   let [load,setLoading]=useState(false)
+    console.log(todo);
+    
     let defaultValues: Partial<TodoFormValues> = {
         title:todo.title ,
         body:todo.body,
         completed: todo.completed,
       };
     
-      let [load,setLoading]=useState(false)
     
     const form = useForm<TodoFormValues>({
         resolver: zodResolver(todoFormSchema),
         defaultValues,
         mode: "onChange",
       });
+      useEffect(() => {
+        if (open) {
+          form.reset(defaultValues);
+        }
+      }, [open]);
       let cleanUp=()=>{
         form.reset()
         setLoading(false)
@@ -58,11 +65,9 @@ const UpdateTodo=({todo}:UpdateTodoProps)=> {
       }
     
      async  function onSubmit(values: TodoFormValues) {
-    
         setLoading(true)
         await updateTodo(todo.id as string, values)
         cleanUp()
-        
       }
   return (
     <div>

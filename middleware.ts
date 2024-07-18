@@ -4,9 +4,9 @@ const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
 
 export default clerkMiddleware((auth, request) => {
   if(!isPublicRoute(request)) {
-    auth().protect();
+    auth().protect()
   }
-});
+},{ afterSignInUrl: '/' });
 
 export const config = {
   matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
